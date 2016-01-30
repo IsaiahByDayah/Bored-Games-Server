@@ -1,0 +1,15 @@
+{
+  "name": "Server",
+  "version": "1.0.0",
+  "description": "Server for Bored Games, facilitates communication betweens Apple TV, players, and (possibly) spectators",
+  "main": "app/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app/server.js"
+  },
+  "author": "Isaiah Smith, Arthur Burgin, Jade Evans",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^1.4.5"
+  }
+}
