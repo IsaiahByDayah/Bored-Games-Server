@@ -37,18 +37,32 @@ io.on("connection", function(socket){
 		console.log('Socket disconnected.');
 	});
 
-	socket.on("JOIN_ROOM", function(clientResponse){
+	socket.on("join room", function(clientResponse){
+		console.log("Socket attempting to join room...");
+
 		socket.join(clientResponse["room"]);
-		io.to(clientResponse["room"]).emit("MESSAGE", JSON.stringify(clientResponse));
+
+		console.log("socket - " + socket.id + " \njoined room - " + clientResponse["room"]);
+
+		io.to(clientResponse["room"]).emit("message", JSON.stringify(clientResponse));
 	});
 
-	socket.on("MESSAGE", function(clientResponse){
-		io.to(clientResponse["room"]).emit("MESSAGE", JSON.stringify(clientResponse));
+	socket.on("message", function(clientResponse){
+		console.log("Socket attempting to send message...");
+
+		console.log("socket - " + socket.id + " \nmessage - " + clientResponse);
+
+		io.to(clientResponse["room"]).emit("message", JSON.stringify(clientResponse));
 	});
 
+	var response = {
+		"type": "CONNECT_INFO",
+		"socketID": socket.id,
+		"from": "Server",
+		"to": "Sender"
+	}
 
-
-	socket.emit("MESSAGE", "Hello World");
+	socket.emit("message", JSON.stringify(response));
 });
 
 console.log("Listening on port " + port);

@@ -14,7 +14,7 @@
 				console.log("Connected...");
 			});
 
-			socket.on("message", function(data){
+			socket.on("MESSAGE", function(data){
 				console.log()
 				document.getElementsByTagName("body")[0].innerHTML = data;
 			});
