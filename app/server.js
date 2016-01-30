@@ -23,7 +23,7 @@ var io = socketio(server);
 server.listen(port);
 
 io.on("connection", function(socket){
-	console.log("Socket connected...");
+	console.log("\nSocket - " + socket.id + " connected...\n");
 
 	socket.on('disconnect', function(clientResponse){
 
@@ -34,25 +34,21 @@ io.on("connection", function(socket){
 		var numClients = (typeof clients !== 'undefined') ? Object.keys(clients).length : 0;
 		*/
 
-		console.log('Socket disconnected.');
+		console.log("\nSocket - " + socket.id + " disonnected.\n");
 	});
 
-	socket.on("join room", function(clientResponse){
-		console.log("Socket attempting to join room...");
-
+	socket.on("JOIN_ROOM", function(clientResponse){
 		socket.join(clientResponse["room"]);
 
-		console.log("socket - " + socket.id + " \njoined room - " + clientResponse["room"]);
+		console.log("\nSocket - " + socket.id + " \n\tjoined room - " + clientResponse["room"] + "\n");
 
-		io.to(clientResponse["room"]).emit("message", JSON.stringify(clientResponse));
+		io.to(clientResponse["room"]).emit("MESSAGE", JSON.stringify(clientResponse));
 	});
 
-	socket.on("message", function(clientResponse){
-		console.log("Socket attempting to send message...");
+	socket.on("MESSAGE", function(clientResponse){
+		console.log("\nSocket - " + socket.id + " \n\tmessage - " + clientResponse + "\n");
 
-		console.log("socket - " + socket.id + " \nmessage - " + clientResponse);
-
-		io.to(clientResponse["room"]).emit("message", JSON.stringify(clientResponse));
+		io.to(clientResponse["room"]).emit("MESSAGE", JSON.stringify(clientResponse));
 	});
 
 	var response = {
