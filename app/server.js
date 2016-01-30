@@ -25,9 +25,27 @@ server.listen(port);
 io.on("connection", function(socket){
 	console.log("Socket connected...");
 
-	socket.on('disconnect', function(){
+	socket.on('disconnect', function(clientResponse){
+
+		/*MARK: Using in future to update amount of user in the room
+		var clients = io.sockets.adapter.rooms[clientResponse["room"]];   
+
+		//to get the number of clients
+		var numClients = (typeof clients !== 'undefined') ? Object.keys(clients).length : 0;
+		*/
+
 		console.log('Socket disconnected.');
 	});
+
+	socket.on("JOIN_ROOM", function(clientResponse){
+		socket.join(clientResponse["room"]);
+	});
+
+	socket.on("MESSAGE", function(clientResponse){
+		socket.emit(clientResponse["message"]);
+	});
+
+
 
 	socket.emit("message", "Hello World");
 });
