@@ -29,7 +29,7 @@ io.on("connection", function(socket){
 		console.log('Socket disconnected.');
 	});
 
-	socket.emit("message", "Hello World");
+	socket.emit("message", JSON.stringify({"message":"Hello World"}));
 });
 
 console.log("Listening on port " + port);
