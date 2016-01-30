@@ -58,7 +58,7 @@ io.on("connection", function(socket){
 		"to": "Sender"
 	}
 
-	socket.emit("message", JSON.stringify(response));
+	socket.emit("MESSAGE", JSON.stringify(response));
 });
 
 console.log("Listening on port " + port);
