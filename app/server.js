@@ -39,11 +39,11 @@ io.on("connection", function(socket){
 
 	socket.on("JOIN_ROOM", function(clientResponse){
 		socket.join(clientResponse["room"]);
-		io.to(clientResponse["room"]).emit("MESSAGE", clientResponse);
+		io.to(clientResponse["room"]).emit("MESSAGE", JSON.stringify(clientResponse));
 	});
 
 	socket.on("MESSAGE", function(clientResponse){
-		io.to(clientResponse["room"]).emit("MESSAGE", clientResponse);
+		io.to(clientResponse["room"]).emit("MESSAGE", JSON.stringify(clientResponse));
 	});
 
 
