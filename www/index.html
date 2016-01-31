@@ -47,7 +47,6 @@
 			socket.on("connect", function(){
 				console.log("Connected...");
 			});
-
 			socket.on("chat message", function(message){
 				$('#messages').append($('<li>').text(message));
 			});
@@ -56,6 +55,7 @@
 				socket.emit("chat message", $('#m').val());
 				$('#m').val('');
 				return false;
+			
 			});
 		}
 		window.onload = init();
