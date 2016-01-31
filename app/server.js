@@ -54,7 +54,9 @@ io.on("connection", function(socket){
 	var response = {
 		"type": "CONNECT_INFO",
 		"socketID": socket.id,
-		"from": "Server",
+		"from": {
+			"role": "SERVER"
+		},
 		"to": "Sender"
 	}
 
