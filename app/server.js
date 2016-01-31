@@ -43,6 +43,10 @@ io.on("connection", function(socket){
 		io.to(clientResponse["room"]).emit("MESSAGE", JSON.stringify(clientResponse));
 	});
 
+	socket.on("RETURN", function(clientResponse){
+		socket.emit(clientResponse);
+	});
+
 	socket.on("chat message", function(message){
 		console.log(message);
 		io.emit("chat message", message);
