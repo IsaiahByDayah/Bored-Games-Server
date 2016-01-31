@@ -16,27 +16,31 @@ res.sendFile(__dirname+'/index.html');
 server.listen(port);
 
 io.on("connection", function(socket){
-	console.log("Socket connected...");
+	console.log("\nSocket - " + socket.id + " connected...\n");
 
 	socket.on('disconnect', function(clientResponse){
 
 		/*MARK: Using in future to update amount of user in the room
-		var clients = io.sockets.adapter.rooms[clientResponse["room"]];   
+		var clients = io.sockets.adapter.rooms[clientResponse["room"]];
 
 		//to get the number of clients
 		var numClients = (typeof clients !== 'undefined') ? Object.keys(clients).length : 0;
 		*/
 
-		console.log('Socket disconnected.');
+		console.log("\nSocket - " + socket.id + " disonnected.\n");
 	});
 
 	socket.on("JOIN_ROOM", function(clientResponse){
 		socket.join(clientResponse["room"]);
-		io.to(clientResponse["room"]).emit("MESSAGE", clientResponse);
+
+		console.log("\nSocket - " + socket.id + " \n\tjoined room - " + clientResponse["room"] + "\n");
+
+		io.to(clientResponse["room"]).emit("MESSAGE", JSON.stringify(clientResponse));
 	});
 
 	socket.on("MESSAGE", function(clientResponse){
-		io.to(clientResponse["room"]).emit("MESSAGE", clientResponse);
+		console.log("\nSocket - " + socket.id + " \n\tmessage - " + clientResponse + "\n");
+		io.to(clientResponse["room"]).emit("MESSAGE", JSON.stringify(clientResponse));
 	});
 
 	socket.on("chat message", function(message){
@@ -44,7 +48,16 @@ io.on("connection", function(socket){
 		io.emit("chat message", message);
 	});
 
-	socket.emit("message", "Hello World");
+	var response = {
+		"type": "CONNECT_INFO",
+		"socketID": socket.id,
+		"from": {
+			"role": "SERVER"
+		},
+		"to": "Sender"
+	}
+
+	socket.emit("MESSAGE", JSON.stringify(response));
 });
 
 console.log("Listening on port " + port);
