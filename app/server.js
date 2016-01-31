@@ -28,6 +28,19 @@ io.on("connection", function(socket){
 		*/
 
 		console.log("\nSocket - " + socket.id + " disonnected.\n");
+
+		var response = {
+			"type": "DISCONNECT_INFO",
+			"socketID": socket.id,
+			"from": {
+				"role": "SERVER"
+			},
+			"to": {
+				"role" : "GAME"
+			}
+		}
+
+		io.sockets.emit("MESSAGE", response);
 	});
 
 	socket.on("JOIN_ROOM", function(clientResponse){
