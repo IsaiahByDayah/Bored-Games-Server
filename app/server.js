@@ -1,24 +1,17 @@
-var http = require('http');
+var express = require("express");
+var app = express();
+var server = require('http').createServer(app);
 var fs = require('fs');
-var socketio = require('socket.io');
+var io = require('socket.io')(server);
 
 var port = process.env.PORT || 18000;
+//serve static files from www folder
+app.use(express.static(process.cwd() + '/www'));
 
-var server = http.createServer(function(req, res){
-	// console.log("URL: " + req.url);
+app.get('/', function(req, res, next){
+res.sendFile(__dirname+'/index.html');
 
-	fs.readFile(__dirname+"/../www/index.html", function(err, data){
-		if (err) {
-			res.writeHead(500);
-			return res.end("Error loading index.html");
-		}
-
-		res.writeHead(200);
-		res.end(data);
-	});
 });
-
-var io = socketio(server);
 
 server.listen(port);
 
@@ -47,8 +40,12 @@ io.on("connection", function(socket){
 
 	socket.on("MESSAGE", function(clientResponse){
 		console.log("\nSocket - " + socket.id + " \n\tmessage - " + clientResponse + "\n");
-
 		io.to(clientResponse["room"]).emit("MESSAGE", JSON.stringify(clientResponse));
+	});
+
+	socket.on("chat message", function(message){
+		console.log(message);
+		io.emit("chat message", message);
 	});
 
 	var response = {
