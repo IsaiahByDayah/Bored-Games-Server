@@ -35,12 +35,12 @@ io.on("connection", function(socket){
 
 		console.log("\nSocket - " + socket.id + " \n\tjoined room - " + clientResponse["room"] + "\n");
 
-		io.to(clientResponse["room"]).emit("MESSAGE", JSON.stringify(clientResponse));
+		io.to(clientResponse["room"]).emit("MESSAGE", clientResponse);
 	});
 
 	socket.on("MESSAGE", function(clientResponse){
 		console.log("\nSocket - " + socket.id + " \n\tmessage - " + clientResponse + "\n");
-		io.to(clientResponse["room"]).emit("MESSAGE", JSON.stringify(clientResponse));
+		io.to(clientResponse["room"]).emit("MESSAGE", clientResponse);
 	});
 
 	socket.on("RETURN", function(clientResponse){
