@@ -44,7 +44,7 @@ io.on("connection", function(socket){
 	});
 
 	socket.on("RETURN", function(clientResponse){
-		socket.emit(clientResponse);
+		socket.emit("RETURN", clientResponse);
 	});
 
 	socket.on("chat message", function(message){
