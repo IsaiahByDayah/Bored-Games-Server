@@ -44,6 +44,7 @@ io.on("connection", function(socket){
 	});
 
 	socket.on("RETURN", function(clientResponse){
+		console.log("Returning...");
 		socket.emit("RETURN", clientResponse);
 	});
 
@@ -61,7 +62,7 @@ io.on("connection", function(socket){
 		"to": "Sender"
 	}
 
-	socket.emit("MESSAGE", JSON.stringify(response));
+	socket.emit("MESSAGE", response);
 });
 
 console.log("Listening on port " + port);
